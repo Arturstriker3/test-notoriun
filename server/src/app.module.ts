@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './modules/user/user.module';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ dotenv.config();
       logging: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
