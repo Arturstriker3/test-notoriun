@@ -26,6 +26,19 @@ export class UserRepository {
     return this.repository.find();
   }
 
+  async findAllWithPagination(
+    offset: number,
+    limit: number,
+  ): Promise<[User[], number]> {
+    const [users, total] = await this.repository
+      .createQueryBuilder('user')
+      .skip(offset)
+      .take(limit)
+      .getManyAndCount();
+
+    return [users, total];
+  }
+
   async update(id: string, user: Partial<User>): Promise<User> {
     await this.repository.update(id, user);
     return this.findById(id);

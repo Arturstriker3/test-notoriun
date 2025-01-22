@@ -1,4 +1,12 @@
-import { Controller, Post, Body, BadRequestException, UsePipes, ValidationPipe, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  BadRequestException,
+  UsePipes,
+  ValidationPipe,
+  HttpCode,
+} from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { RequestCodeDto } from '../dtos/request-code.dto';
 import { ValidateCodeDto } from '../dtos/validate-code.dto';

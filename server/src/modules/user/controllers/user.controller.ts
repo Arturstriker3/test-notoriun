@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
@@ -25,8 +26,11 @@ export class UserController {
   }
 
   @Get()
-  async findAllUsers() {
-    return this.userService.findAllUsers();
+  async findAllUsers(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.userService.findAllUsers({ page, limit });
   }
 
   @Put(':id')

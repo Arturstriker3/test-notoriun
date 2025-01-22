@@ -30,8 +30,22 @@ export class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  async findAllUsers(): Promise<User[]> {
-    return this.userRepository.findAll();
+  async findAllUsers(pagination: { page: number; limit: number }) {
+    const { page, limit } = pagination;
+
+    const offset = (page - 1) * limit;
+
+    const [users, total] = await this.userRepository.findAllWithPagination(
+      offset,
+      limit,
+    );
+
+    return {
+      data: users,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async updateUser(id: string, userData: Partial<User>): Promise<User> {
