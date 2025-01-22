@@ -62,6 +62,32 @@ export class UserService {
   async updateUser(id: string, userData: Partial<User>): Promise<User> {
     const user = await this.findUserById(id);
 
+    if (userData.cnpj && !isValidCnpj(userData.cnpj)) {
+      throw new ConflictException('Invalid CNPJ');
+    }
+
+    if (userData.cnpj) {
+      const existingUserWithCnpj = await this.userRepository.findByCnpj(
+        userData.cnpj,
+      );
+      if (existingUserWithCnpj && existingUserWithCnpj.id !== user.id) {
+        throw new ConflictException(
+          'CNPJ is already registered to another user',
+        );
+      }
+    }
+
+    if (userData.email) {
+      const existingUserWithEmail = await this.userRepository.findByEmail(
+        userData.email,
+      );
+      if (existingUserWithEmail && existingUserWithEmail.id !== user.id) {
+        throw new ConflictException(
+          'Email is already registered to another user',
+        );
+      }
+    }
+
     return this.userRepository.update(user.id, userData);
   }
 

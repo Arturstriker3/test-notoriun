@@ -14,6 +14,7 @@ import { User } from '../entities/user.entity';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { GetUsersDto } from '../dtos/get-users.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -90,7 +91,55 @@ export class UserController {
   }
 
   @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() userData: Partial<User>) {
+  @ApiOperation({ summary: 'Update an existing user' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the user',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User updated successfully',
+    type: User,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation error or invalid UUID format',
+    schema: {
+      example: {
+        statusCode: 400,
+        message: 'Validation failed (uuid is expected)',
+        error: 'Bad Request',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    schema: {
+      example: {
+        statusCode: 404,
+        message: 'User not found',
+        error: 'Not Found',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Business rule conflict',
+    schema: {
+      example: {
+        statusCode: 409,
+        message: 'Email is already registered',
+        error: 'Conflict',
+      },
+    },
+  })
+  async updateUser(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() userData: UpdateUserDto,
+  ) {
     return this.userService.updateUser(id, userData);
   }
 
