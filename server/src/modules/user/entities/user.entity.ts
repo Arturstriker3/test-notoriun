@@ -23,9 +23,6 @@ export class User {
   @Column({ length: 255, unique: true })
   email: string;
 
-  @Column({ length: 6 })
-  validationCode: string;
-
   @Column({ length: 14, nullable: false })
   cnpj: string;
 

@@ -23,10 +23,6 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  @Length(6, 6)
-  validationCode: string;
-
-  @IsString()
   @Length(14, 14)
   cnpj: string;
 

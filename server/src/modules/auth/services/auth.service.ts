@@ -1,13 +1,21 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as crypto from 'crypto';
+import { UserService } from '../../user/services/user.service';
 
 @Injectable()
 export class AuthService {
   private readonly secretKey =
     process.env.SECRET_KEY || 'notoriun12345678987654321';
 
+  constructor(private readonly userService: UserService) {}
+
   async sendVerificationCode(email: string): Promise<{ messageUrl: string }> {
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (existingUser) {
+      throw new BadRequestException('This email is already registered.');
+    }
+
     const validationCode = this.generateValidationCode(email);
 
     const messageUrl = await this.sendEmailWithCode(email, validationCode);
