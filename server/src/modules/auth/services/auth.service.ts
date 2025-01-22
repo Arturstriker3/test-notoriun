@@ -66,12 +66,6 @@ export class AuthService implements IAuthService {
       html: `<p>Seu código de validação é: <strong>${code}</strong></p>`,
     });
 
-    console.log('Mensagem enviada: %s', info.messageId);
-    console.log(
-      'URL para visualização: %s',
-      nodemailer.getTestMessageUrl(info),
-    );
-
     return nodemailer.getTestMessageUrl(info);
   }
 }
