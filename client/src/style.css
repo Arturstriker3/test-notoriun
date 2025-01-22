@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'TTCommonsTrl';
+  src: url('/src/assets/fonts/TTCommonsTrl-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TTCommonsTrl';
+  src: url('/src/assets/fonts/TTCommonsTrl-DemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TTCommonsTrl';
+  src: url('/src/assets/fonts/TTCommonsTrl-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'TTCommonsTrl', 'Roboto', sans-serif;
+  min-height: 100vh;
+}
