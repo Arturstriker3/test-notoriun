@@ -2,9 +2,10 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as crypto from 'crypto';
 import { UserService } from '../../user/services/user.service';
+import { IAuthService } from '../interfaces/auth-service.interface';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements IAuthService {
   private readonly secretKey =
     process.env.SECRET_KEY || 'notoriun12345678987654321';
 
