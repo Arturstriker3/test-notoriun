@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:17
+    image: postgis/postgis:17-master
     container_name: container_postgres_database
     environment:
       POSTGRES_DB: generic
@@ -12,6 +12,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
+      - ./db:/docker-entrypoint-initdb.d/
       - postgres_data:/var/lib/postgresql/data
     restart: on-failure
     healthcheck:

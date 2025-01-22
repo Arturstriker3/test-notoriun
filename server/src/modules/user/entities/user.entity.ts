@@ -129,18 +129,16 @@ export class User {
   complement: string;
 
   @ApiProperty({
-    description: 'User latitude',
-    example: '-23.550520',
+    description: 'User location (latitude and longitude)',
+    example: { type: 'Point', coordinates: [-46.633308, -23.55052] },
   })
-  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: false })
-  latitude: number;
-
-  @ApiProperty({
-    description: 'User longitude',
-    example: '-46.633308',
+  @Column({
+    type: 'geography',
+    spatialFeatureType: 'Point',
+    srid: 4326,
+    nullable: false,
   })
-  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: false })
-  longitude: number;
+  location: { type: 'Point'; coordinates: [number, number] };
 
   @ApiProperty({
     description: 'User created at',

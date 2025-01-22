@@ -13,13 +13,24 @@ import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { GetUsersDto } from '../dtos/get-users.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() userData: Partial<User>) {
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User created successfully',
+    type: User,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation error',
+  })
+  async createUser(@Body() userData: CreateUserDto) {
     return this.userService.createUser(userData);
   }
 

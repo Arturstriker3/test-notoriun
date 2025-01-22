@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/user.entity';
+import { isValidCnpj } from '../../shared/utils/cnpj-validator.util';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,11 @@ export class UserService {
     if (existingUser) {
       throw new ConflictException('Email is already registered');
     }
+
+    if (!isValidCnpj(userData.cnpj)) {
+      throw new ConflictException('Invalid CNPJ');
+    }
+
     return this.userRepository.create(userData);
   }
 
@@ -23,11 +29,16 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
     return user;
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
     return this.userRepository.findByEmail(email);
+  }
+
+  async findUserByCnpj(cnpj: string): Promise<User | null> {
+    return this.userRepository.findByCnpj(cnpj);
   }
 
   async findAllUsers(pagination: { page: number; limit: number }) {
@@ -50,6 +61,7 @@ export class UserService {
 
   async updateUser(id: string, userData: Partial<User>): Promise<User> {
     const user = await this.findUserById(id);
+
     return this.userRepository.update(user.id, userData);
   }
 

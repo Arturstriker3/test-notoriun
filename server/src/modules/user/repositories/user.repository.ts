@@ -22,6 +22,10 @@ export class UserRepository {
     return this.repository.findOne({ where: { email } });
   }
 
+  async findByCnpj(cnpj: string): Promise<User | null> {
+    return this.repository.findOne({ where: { cnpj } });
+  }
+
   async findAll(): Promise<User[]> {
     return this.repository.find();
   }
