@@ -22,6 +22,13 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'Verification code sent successfully.',
+    schema: {
+      example: {
+        message: 'Verification code sent',
+        messageUrl:
+          'https://ethereal.email/message/Z5BR9.byJQYC4JGMZ5En6mENU1iB01O8AAAABJCJCUjyjRd0XFkNC8P79fw',
+      },
+    },
   })
   @ApiResponse({
     status: 400,
@@ -37,7 +44,15 @@ export class AuthController {
 
   @Post('validate-code')
   @ApiOperation({ summary: 'Validate email verification code' })
-  @ApiResponse({ status: 200, description: 'Code validated successfully.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Code validated successfully.',
+    schema: {
+      example: {
+        message: 'Code validated successfully',
+      },
+    },
+  })
   @ApiResponse({ status: 400, description: 'Invalid verification code.' })
   @UsePipes(ValidationPipe)
   @HttpCode(200)
@@ -56,7 +71,14 @@ export class AuthController {
   @ApiOperation({ summary: 'Resend email verification code' })
   @ApiResponse({
     status: 201,
-    description: 'Verification code resent successfully.',
+    description: 'Verification code sent successfully.',
+    schema: {
+      example: {
+        message: 'Verification code sent',
+        messageUrl:
+          'https://ethereal.email/message/Z5BR9.byJQYC4JGMZ5En6mENU1iB01O8AAAABJCJCUjyjRd0XFkNC8P79fw',
+      },
+    },
   })
   @ApiResponse({
     status: 400,
