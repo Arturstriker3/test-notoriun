@@ -1,11 +1,23 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsOptional,
   IsString,
   Length,
-  IsNumber,
+  ValidateNested,
 } from 'class-validator';
+
+class Point {
+  @ApiProperty({ description: 'Type of the location', example: 'Point' })
+  type: 'Point';
+
+  @ApiProperty({
+    description: 'Coordinates of the location (longitude, latitude)',
+    example: [-46.633308, -23.55052],
+  })
+  coordinates: [number, number];
+}
 
 export class CreateUserDto {
   @ApiProperty({
@@ -41,7 +53,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Institution legal code',
-    example: '123456',
+    example: '48790285000138',
   })
   @IsString()
   @Length(14, 14)
@@ -138,16 +150,10 @@ export class CreateUserDto {
   complement: string;
 
   @ApiProperty({
-    description: 'User latitude',
-    example: -23.55052,
+    description: 'User location (latitude and longitude)',
+    example: { type: 'Point', coordinates: [-46.633308, -23.55052] },
   })
-  @IsNumber({}, { message: 'latitude must be a valid number.' })
-  latitude: number;
-
-  @ApiProperty({
-    description: 'User longitude',
-    example: -46.633308,
-  })
-  @IsNumber({}, { message: 'longitude must be a valid number.' })
-  longitude: number;
+  @ValidateNested()
+  @Type(() => Point)
+  location: Point;
 }

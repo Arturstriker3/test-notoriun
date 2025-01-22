@@ -30,6 +30,10 @@ export class UserController {
     status: 400,
     description: 'Validation error',
   })
+  @ApiResponse({
+    status: 409,
+    description: 'Business rule conflict',
+  })
   async createUser(@Body() userData: CreateUserDto) {
     return this.userService.createUser(userData);
   }
