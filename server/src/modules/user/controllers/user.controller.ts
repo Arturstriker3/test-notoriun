@@ -7,10 +7,11 @@ import {
   Body,
   Param,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
-import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { GetUsersDto } from '../dtos/get-users.dto';
 
 @Controller('users')
@@ -23,7 +24,27 @@ export class UserController {
   }
 
   @Get(':id')
-  async findUserById(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Get a user by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the user',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User found',
+    type: User,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid UUID format',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  async findUserById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.findUserById(id);
   }
 
