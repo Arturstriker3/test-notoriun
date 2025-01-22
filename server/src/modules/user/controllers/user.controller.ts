@@ -8,6 +8,7 @@ import {
   Param,
   Query,
   ParseUUIDPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
@@ -144,7 +145,27 @@ export class UserController {
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Delete a user by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the user',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'User deleted successfully',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid UUID format',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  @HttpCode(204)
+  async deleteUser(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.deleteUser(id);
   }
 }
