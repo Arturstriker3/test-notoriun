@@ -1,0 +1,33 @@
+# Ignore node_modules - será gerado no container
+node_modules
+
+# Ignore os arquivos gerados pela compilação do TypeScript
+dist
+
+# Ignore arquivos de configuração e logs locais
+.env
+.env.*
+*.log
+
+# Ignore os arquivos de cache e configurações do editor
+.cache
+.vscode
+.idea
+
+# Ignore arquivos de controle de versão e relacionados
+.git
+.gitignore
+
+# Ignore os arquivos de dependências bloqueadas
+pnpm-lock.yaml.*
+package-lock.json.*
+
+# Ignore arquivos desnecessários
+Dockerfile
+docker-compose.yml
+
+# Ignore outros arquivos temporários
+*.temp
+*.tmp
+*.bak
+*.swp

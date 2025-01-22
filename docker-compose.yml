@@ -21,5 +21,27 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build:
+      context: server/
+      dockerfile: ./Dockerfile
+    container_name: container_nest_api
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      DB_HOST: postgres
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+      DB_NAME: generic
+      DB_PORT: 5432
+      SECRET_KEY: notoriun12345678987654321
+      ETHEREAL_USER: cedrick77@ethereal.email
+      ETHEREAL_PASS: GYRCVANx5jtakuDjK1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
 volumes:
   postgres_data:
