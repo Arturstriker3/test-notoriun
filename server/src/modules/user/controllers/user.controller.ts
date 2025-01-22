@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
+import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { GetUsersDto } from '../dtos/get-users.dto';
 
 @Controller('users')
 export class UserController {
@@ -26,6 +28,24 @@ export class UserController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all users paginated' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    description: 'Current page',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Items per page',
+    example: 10,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated list of users',
+    type: GetUsersDto,
+  })
   async findAllUsers(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
