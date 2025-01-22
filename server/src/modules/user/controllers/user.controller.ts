@@ -9,6 +9,7 @@ import {
   Query,
   ParseUUIDPipe,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
@@ -16,9 +17,10 @@ import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { GetUsersDto } from '../dtos/get-users.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { IUserController } from '../interface/user-controller.interface';
 
 @Controller('users')
-export class UserController {
+export class UserController implements IUserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
@@ -85,8 +87,8 @@ export class UserController {
     type: GetUsersDto,
   })
   async findAllUsers(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', new ParseIntPipe()) page: number = 1,
+    @Query('limit', new ParseIntPipe()) limit: number = 10,
   ) {
     return this.userService.findAllUsers({ page, limit });
   }

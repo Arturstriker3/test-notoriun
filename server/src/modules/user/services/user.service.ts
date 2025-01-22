@@ -6,9 +6,10 @@ import {
 import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/user.entity';
 import { isValidCnpj } from '../../shared/utils/cnpj-validator.util';
+import { IUserService } from '../interface/user-service.interface';
 
 @Injectable()
-export class UserService {
+export class UserService implements IUserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async createUser(userData: Partial<User>): Promise<User> {
