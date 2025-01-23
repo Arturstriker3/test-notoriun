@@ -1,7 +1,9 @@
-<script lang="ts" setup >
+<script lang="ts" setup>
 
 const router = useRouter();
 const emit = defineEmits(['change-view']);
+const authScreen = ref(true);
+const userEmail = ref('teste@example.com');
 
 const goTo = (route: string) => {
   router.push(`/${route}`);
@@ -11,10 +13,17 @@ const changeView = (view: number) => {
   emit('change-view', view);
 };
 
+const validateEmail = () => {
+  authScreen.value = true;
+};
+
 </script>
 
 <template>
-  <main class="px-2 mt-4">
+  <main
+    v-if="!authScreen"
+    class="px-2 mt-4"
+  >
     <div class="flex flex-col gap-4 w-full h-full">
       <div class="flex justify-center items-center">
         <h2 class="text-2xl font-semibold text-pretty text-center max-w-lg justify-center px-10">
@@ -22,7 +31,10 @@ const changeView = (view: number) => {
         </h2>
       </div>
       <div class="flex flex-col gap-8 items-center w-full">
-        <v-card class="max-w-xl w-full ">
+        <v-card
+          class="max-w-xl w-full min-h-11"
+          style="min-height: 402px;"
+        >
           <v-card-text>
             <v-form>
               <p class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
@@ -73,12 +85,51 @@ const changeView = (view: number) => {
             <v-btn
               class="bg-emerald-500 text-white"
               outlined
-              @click="changeView(2)"
+              @click="validateEmail()"
             >
               Cadastrar
             </v-btn>
           </div>
         </div>
+      </div>
+    </div>
+  </main>
+  <main
+    v-else
+    class="px-2 mt-4"
+  >
+    <div class="flex flex-col gap-4 w-full h-full">
+      <div class="h-16" />
+      <div class="flex flex-col gap-8 items-center w-full">
+        <v-card
+          class="max-w-xl w-full"
+          style="min-height: 402px;"
+        >
+          <v-card-text>
+            <v-form>
+              <div class="flex flex-col gap-2 mb-6">
+                <h2 class="text-3xl font-semibold text-pretty text-center justify-center mt-10">
+                  Validação de e-mail
+                </h2>
+                <p class="text-center text-sm font-medium text-gray-500 px-16">
+                  Insira abaixo o código enviado para <span class="font-semibold">{{ userEmail }}</span>
+                </p>
+              </div>
+              <v-otp-input
+                length="6"
+                model-value="123456"
+                max-width="full"
+              />
+              <div class="flex justify-center items-center w-full mt-6">
+                <span 
+                  class="text-base text-center text-red-600 underline font-semibold cursor-pointer hover:underline"
+                >
+                  Não recebi o código
+                </span>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </div>
     </div>
   </main>
