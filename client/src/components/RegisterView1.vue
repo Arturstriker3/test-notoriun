@@ -2,7 +2,7 @@
   <main class="px-2 mt-4">
     <div class="flex flex-col gap-4 w-full h-full">
       <div class="flex justify-center items-center">
-        <h2 class="text-2xl font-semibold text-center max-w-lg justify-center px-10">
+        <h2 class="text-2xl font-semibold text-pretty text-center max-w-lg justify-center px-10">
           Entre com as informações do usuário que será o administrador do sistema
         </h2>
       </div>

@@ -1,13 +1,13 @@
 <template>
-  <div class="flex flex-col">
-    <header class="flex items-center justify-between w-full h-20 px-12 shadow-md">
-      <div class="flex items-center">
+  <div class="flex flex-col sticky top-0 z-10 bg-white">
+    <header class="flex items-center w-full h-20 px-12 shadow-md">
+      <div class="flex items-center w-1/2 justify-start">
         <h3 class="text-2xl font-medium">
           Notoriun
         </h3>
       </div>
 
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4 w-1/2 justify-end">
         <v-btn icon>
           <v-icon>mdi-account-plus</v-icon>
         </v-btn>
