@@ -22,7 +22,7 @@ const validateEmail = () => {
 <template>
   <main
     v-if="!authScreen"
-    class="px-2 mt-4"
+    class="px-2 mt-4 animate-in fade-in duration-500"
   >
     <div class="flex flex-col gap-4 w-full h-full">
       <div class="flex justify-center items-center">
@@ -96,7 +96,7 @@ const validateEmail = () => {
   </main>
   <main
     v-else
-    class="px-2 mt-4"
+    class="px-2 mt-4 animate-in fade-in duration-500"
   >
     <div class="flex flex-col gap-4 w-full h-full">
       <div class="h-16" />
