@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-const atualView = ref(3);
+const atualView = ref(2);
 
 const changeView = (viewNumber: number) => {
   atualView.value = viewNumber;

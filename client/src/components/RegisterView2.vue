@@ -1,5 +1,5 @@
 <template>
-  <main class="px-2 mt-4 animate-in fade-in duration-500">
+  <section class="px-2 mt-4 animate-in fade-in duration-500">
     <v-card
       class="w-full"
       style="min-height: 402px;"
@@ -161,6 +161,6 @@
         </v-form>
       </v-card-text>
     </v-card>
-  </main>
+  </section>
   <FormFooter />
 </template>

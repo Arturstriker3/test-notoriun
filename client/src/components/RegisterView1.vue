@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 const router = useRouter();
-const emit = defineEmits(['change-view']);
+// const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
 const userEmail = ref('teste@example.com');
 
@@ -9,9 +9,9 @@ const goTo = (route: string) => {
   router.push(`/${route}`);
 };
 
-const changeView = (view: number) => {
-  emit('change-view', view);
-};
+// const changeView = (view: number) => {
+//   emit('change-view', view);
+// };
 
 const validateEmail = () => {
   authScreen.value = true;
@@ -20,7 +20,7 @@ const validateEmail = () => {
 </script>
 
 <template>
-  <main
+  <section
     v-if="!authScreen"
     class="px-2 mt-4 animate-in fade-in duration-500"
   >
@@ -31,43 +31,45 @@ const validateEmail = () => {
         </h2>
       </div>
       <div class="flex flex-col gap-8 items-center w-full">
-        <v-card
-          class="max-w-xl w-full min-h-11 min-w-[402px]"
-        >
-          <v-card-text>
-            <v-form>
-              <div class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
-                <span>As informações serão usadas para iniciar o sistema</span>
-              </div>
-              <label class="text-subtitle-1">
-                Nome Completo*
-              </label>
-              <v-text-field 
-                placeholder="Nome Completo" 
-                class="mb-4"
-                density="compact"
-                variant="solo" 
-              />
-              <label class="text-subtitle-1">
-                Celular*
-              </label>
-              <v-text-field 
-                placeholder="(00) 00000-0000" 
-                class="mb-4"
-                density="compact"
-                variant="solo" 
-              />
-              <label class="text-subtitle-1">
-                E-mail*
-              </label>
-              <v-text-field 
-                placeholder="exemplo@noemail.com.br" 
-                density="compact"
-                variant="solo" 
-              />
-            </v-form>
-          </v-card-text>
-        </v-card>
+        <div class="flex justify-center w-full">
+          <v-card
+            class="max-w-xl w-full min-h-[402px]"
+          >
+            <v-card-text>   
+              <v-form>
+                <div class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
+                  <span>As informações serão usadas para iniciar o sistema</span>
+                </div>
+                <label class="text-subtitle-1">
+                  Nome Completo*
+                </label>
+                <v-text-field 
+                  placeholder="Nome Completo" 
+                  class="mb-4"
+                  density="compact"
+                  variant="solo" 
+                />
+                <label class="text-subtitle-1">
+                  Celular*
+                </label>
+                <v-text-field 
+                  placeholder="(00) 00000-0000" 
+                  class="mb-4"
+                  density="compact"
+                  variant="solo" 
+                />
+                <label class="text-subtitle-1">
+                  E-mail*
+                </label>
+                <v-text-field 
+                  placeholder="exemplo@noemail.com.br" 
+                  density="compact"
+                  variant="solo" 
+                />
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </div>
 
         <div class="flex flex-col items-center gap-6 text-center max-w-xl sm:w-full">
           <span class="text-xs font-medium text-black px-11">
@@ -92,8 +94,8 @@ const validateEmail = () => {
         </div>
       </div>
     </div>
-  </main>
-  <main
+  </section>
+  <section
     v-else
     class="px-2 mt-4 animate-in fade-in duration-500"
   >
@@ -146,5 +148,5 @@ const validateEmail = () => {
         </v-card>
       </div>
     </div>
-  </main>
+  </section>
 </template>

@@ -1,8 +1,10 @@
 <template>
-  <main class="px-2 mt-4 animate-in fade-in duration-500 mt-16">
-    <div class="flex justify-center items-center">
+  <section class="animate-in fade-in duration-500 mt-20 px-2">
+    <div class="w-full">
+        <h3>A localização está correta?</h3>
+        <p>Verifique a localização identificada e ajuste se for necessário</p>
       <v-card
-        class="w-full max-w-xl sm:w-full min-w-[402px]"
+        class="max-w-xl sm:w-full min-w-[402px] sm:min-w-0"
       >
         <v-card-text>
           <v-form class="mt-4 mx-4">
@@ -11,6 +13,6 @@
         </v-card-text>
       </v-card>
     </div>
-  </main>
+  </section>
   <FormFooter />
 </template>
