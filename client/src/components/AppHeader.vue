@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <header class="flex items-center justify-between w-full h-16 px-12 shadow-md">
+    <header class="flex items-center justify-between w-full h-20 px-12 shadow-md">
       <div class="flex items-center">
         <h3 class="text-2xl font-medium">
           Notoriun
@@ -8,12 +8,12 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <button class="text-black">
-          <i class="mdi mdi-account-plus text-2xl" />
-        </button>
-        <button class="text-black">
-          <i class="mdi mdi-account-group text-2xl" />
-        </button>
+        <v-btn icon>
+          <v-icon>mdi-account-plus</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-account-group</v-icon>
+        </v-btn>
       </div>
     </header>
     <div class="border-t-2 border-black" />

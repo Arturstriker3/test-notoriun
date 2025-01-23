@@ -1,7 +1,9 @@
 <template>
   <app-header />
   <v-main>
-    <router-view />
+    <div class="mb-4">
+      <router-view />
+    </div>
   </v-main>
 </template>
 
