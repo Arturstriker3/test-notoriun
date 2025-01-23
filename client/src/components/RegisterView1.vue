@@ -127,6 +127,22 @@ const validateEmail = () => {
                   Não recebi o código
                 </span>
               </div>
+              <div class="flex items-center mt-8">
+                <v-icon
+                  size="large"
+                  class="mr-2"
+                >
+                  mdi-alert-circle-outline
+                </v-icon>
+                <div class="flex flex-col">
+                  <p class="text-sm font-medium">
+                    Verifique se o e-mail está correto.
+                  </p>
+                  <p class="text-sm font-medium">
+                    Além disso, não se esqueça de conferir sua caixa de spam.
+                  </p>
+                </div>
+              </div>
             </v-form>
           </v-card-text>
         </v-card>
