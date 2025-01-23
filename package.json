@@ -1,9 +1,0 @@
-{
-	"dependencies": {
-		"@arcgis/core": "^4.31.6",
-		"esri-loader": "^3.7.0"
-	},
-	"devDependencies": {
-		"@types/arcgis-js-api": "^4.28.4"
-	}
-}

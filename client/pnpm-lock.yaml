@@ -20,6 +20,9 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      esri-loader:
+        specifier: ^3.7.0
+        version: 3.7.0
       postcss-load-config:
         specifier: ^6.0.1
         version: 6.0.1(jiti@1.21.7)(postcss@8.5.1)(yaml@2.7.0)
@@ -1047,6 +1050,10 @@ packages:
   esrecurse@4.3.0:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
     engines: {node: '>=4.0'}
+
+  esri-loader@3.7.0:
+    resolution: {integrity: sha512-cB1Sw9EQjtW4mtT7eFBjn/6VaaIWNTjmTd2asnnEyuZk1xVSFRMCfLZSBSjZM7ZarDcVu5WIjOP0t0MYVu4hVQ==}
+    deprecated: Use @arcgis/core instead.
 
   estraverse@5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
@@ -3072,6 +3079,8 @@ snapshots:
   esrecurse@4.3.0:
     dependencies:
       estraverse: 5.3.0
+
+  esri-loader@3.7.0: {}
 
   estraverse@5.3.0: {}
 
