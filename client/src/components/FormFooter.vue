@@ -6,7 +6,7 @@
 
 <template>
   <div class="border-t-2 border-black mt-4 mb-8" />
-  <div class="flex flex-col w-full px-12">
+  <div class="flex flex-col w-full px-10">
     <div class="flex justify-between w-full">
       <v-btn
         outlined

@@ -10,7 +10,7 @@ const goTo = (route: string) => {
 
 <template>
   <div class="flex flex-col sticky top-0 z-10 bg-white shadow-md">
-    <header class="flex items-center w-full h-20 px-12">
+    <header class="flex items-center w-full h-20 px-10">
       <div class="flex items-center w-1/2 justify-start">
         <h3 class="text-2xl font-medium">
           Notoriun
