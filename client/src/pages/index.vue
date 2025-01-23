@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-red-600">
+  <div class="mt-40">
     <h1>Vue Vite</h1>
   </div>
 </template>

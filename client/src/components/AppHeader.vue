@@ -1,11 +1,12 @@
 <template>
-  <v-app-bar class="flex items-center justify-between">
-    <div class="bg-black w-1/2">
-      <img
-        src="../assets/logo2.webp"
-        alt="Logo"
-        class="w-56 h-20"
-      >
+  <v-app-bar
+    elevation="0"
+    class="flex items-center h-3 px-2"
+  >
+    <div class="flex items-center justify-start w-1/2">
+      <h3 class="text-2xl font-medium">
+        Notoriun
+      </h3>
     </div>
 
     <div class="flex items-center justify-end w-1/2 space-x-4">
