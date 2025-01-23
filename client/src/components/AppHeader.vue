@@ -1,27 +1,21 @@
 <template>
-  <v-app-bar
-    elevation="0"
-    class="flex items-center h-3 px-2"
-  >
-    <div class="flex items-center justify-start w-1/2">
-      <h3 class="text-2xl font-medium">
-        Notoriun
-      </h3>
-    </div>
+  <div class="flex flex-col">
+    <header class="flex items-center justify-between w-full h-16 px-12 shadow-md">
+      <div class="flex items-center">
+        <h3 class="text-2xl font-medium">
+          Notoriun
+        </h3>
+      </div>
 
-    <div class="flex items-center justify-end w-1/2 space-x-4">
-      <v-btn
-        icon
-        class="text-black"
-      >
-        <v-icon>mdi-account-plus</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        class="text-black"
-      >
-        <v-icon>mdi-account-group</v-icon>
-      </v-btn>
-    </div>
-  </v-app-bar>
+      <div class="flex items-center space-x-4">
+        <button class="text-black">
+          <i class="mdi mdi-account-plus text-2xl" />
+        </button>
+        <button class="text-black">
+          <i class="mdi mdi-account-group text-2xl" />
+        </button>
+      </div>
+    </header>
+    <div class="border-t-2 border-black" />
+  </div>
 </template>
