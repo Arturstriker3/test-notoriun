@@ -32,8 +32,7 @@ const validateEmail = () => {
       </div>
       <div class="flex flex-col gap-8 items-center w-full">
         <v-card
-          class="max-w-xl w-full min-h-11"
-          style="min-height: 402px;"
+          class="max-w-xl w-full min-h-11 min-w-[402px]"
         >
           <v-card-text>
             <v-form>
@@ -77,13 +76,13 @@ const validateEmail = () => {
           <div class="flex justify-between w-full">
             <v-btn
               variant="text"
-              class="text-red-700"
+              class="text-red-700 min-w-[132px]"
               @click="goTo('users')"
             >
               Sair
             </v-btn>
             <v-btn
-              class="bg-emerald-500 text-white"
+              class="bg-emerald-500 text-white min-w-[132px]"
               outlined
               @click="validateEmail()"
             >
@@ -102,8 +101,7 @@ const validateEmail = () => {
       <div class="h-16" />
       <div class="flex flex-col gap-8 items-center w-full">
         <v-card
-          class="max-w-xl w-full"
-          style="min-height: 402px;"
+          class="max-w-xl w-full min-h-[402px]"
         >
           <v-card-text>
             <v-form>
