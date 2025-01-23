@@ -5,11 +5,18 @@ import { loadModules } from 'esri-loader';
 import type * as __esri from 'esri';
 
 const mapViewRef = ref<__esri.MapView | null>(null);
+const userLocation = ref<{ latitude: number; longitude: number } | null>(null);
 
 const loadMap = async () => {
   try {
-    const [ArcGISMap, MapView] = await loadModules(
-      ['esri/Map', 'esri/views/MapView'],
+    const [ArcGISMap, MapView, Search, Graphic, GraphicsLayer] = await loadModules(
+      [
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/widgets/Search',
+        'esri/Graphic',
+        'esri/layers/GraphicsLayer',
+      ],
       { css: true }
     );
 
@@ -17,11 +24,68 @@ const loadMap = async () => {
       basemap: 'topo-vector',
     });
 
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
     const view = new MapView({
-      container: 'mapContainer', // ID do container onde o mapa será renderizado
+      container: 'mapContainer',
       map: map,
       center: [-118, 34],
       zoom: 8,
+    });
+
+    const searchWidget = new Search({
+      view: view,
+      placeholder: 'Pesquisar localização ou endereço...',
+    });
+
+    view.ui.add(searchWidget, {
+      position: 'top-right',
+    });
+
+    const addLocationMarker = (latitude: number, longitude: number) => {
+      const point = {
+        type: 'point',
+        longitude,
+        latitude,
+      };
+
+      const markerSymbol = {
+        type: 'picture-marker',
+        url: 'https://cdn.jsdelivr.net/npm/@mdi/svg/svg/map-marker.svg',
+        width: '30px',
+        height: '30px',
+      };
+
+      const graphic = new Graphic({
+        geometry: point,
+        symbol: markerSymbol,
+      });
+
+      graphicsLayer.removeAll();
+      graphicsLayer.add(graphic);
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          userLocation.value = { latitude, longitude };
+          view.center = [longitude, latitude];
+          addLocationMarker(latitude, longitude);
+        },
+        (error) => {
+          console.error('Erro ao obter localização do usuário:', error);
+        }
+      );
+    }
+
+    view.on('click', (event: __esri.ViewClickEvent) => {
+      const { latitude, longitude } = event.mapPoint;
+      userLocation.value = { latitude, longitude };
+
+      console.log('Nova localização selecionada:', latitude, longitude);
+      addLocationMarker(latitude, longitude);
     });
 
     mapViewRef.value = view;
@@ -50,12 +114,23 @@ onMounted(() => {
       <div class="flex flex-col gap-8 items-center w-full">
         <div class="flex justify-center w-full">
           <v-card class="max-w-xl w-full min-h-[402px]">
-            <!-- Adicione aqui o div com o ID 'mapContainer' -->
             <div
               id="mapContainer"
               class="w-full h-[402px]"
             />
           </v-card>
+        </div>
+        <div
+          v-if="userLocation"
+          class="text-center"
+        >
+          <p class="text-sm text-gray-500">
+            <strong>Coordenadas selecionadas:</strong>
+          </p>
+          <p class="text-sm">
+            Latitude: {{ userLocation.latitude.toFixed(6) }} |
+            Longitude: {{ userLocation.longitude.toFixed(6) }}
+          </p>
         </div>
       </div>
     </div>
