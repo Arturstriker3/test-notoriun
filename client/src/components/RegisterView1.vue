@@ -37,30 +37,30 @@ const validateEmail = () => {
         >
           <v-card-text>
             <v-form>
-              <p class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
-                As informações serão usadas para iniciar o sistema
-              </p>
-              <div class="text-subtitle-1 text-medium">
-                Nome Completo*
+              <div class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
+                <span>As informações serão usadas para iniciar o sistema</span>
               </div>
+              <label class="text-subtitle-1">
+                Nome Completo*
+              </label>
               <v-text-field 
                 placeholder="Nome Completo" 
                 class="mb-4"
                 density="compact"
                 variant="solo" 
               />
-              <div class="text-subtitle-1 text-medium">
+              <label class="text-subtitle-1">
                 Celular*
-              </div>
+              </label>
               <v-text-field 
                 placeholder="(00) 00000-0000" 
                 class="mb-4"
                 density="compact"
                 variant="solo" 
               />
-              <div class="text-subtitle-1 text-medium">
+              <label class="text-subtitle-1">
                 E-mail*
-              </div>
+              </label>
               <v-text-field 
                 placeholder="exemplo@noemail.com.br" 
                 density="compact"
