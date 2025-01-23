@@ -9,8 +9,8 @@ const goTo = (route: string) => {
 </script>
 
 <template>
-  <div class="flex flex-col sticky top-0 z-10 bg-white">
-    <header class="flex items-center w-full h-20 px-12 shadow-md">
+  <div class="flex flex-col sticky top-0 z-10 bg-white shadow-md">
+    <header class="flex items-center w-full h-20 px-12">
       <div class="flex items-center w-1/2 justify-start">
         <h3 class="text-2xl font-medium">
           Notoriun

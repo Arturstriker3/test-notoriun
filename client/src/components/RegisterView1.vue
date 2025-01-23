@@ -2,7 +2,7 @@
 
 const router = useRouter();
 const emit = defineEmits(['change-view']);
-const authScreen = ref(true);
+const authScreen = ref(false);
 const userEmail = ref('teste@example.com');
 
 const goTo = (route: string) => {
@@ -70,8 +70,8 @@ const validateEmail = () => {
           </v-card-text>
         </v-card>
 
-        <div class="flex flex-col items-center gap-4 text-center max-w-xl sm:w-full">
-          <span class="text-xs font-medium text-black px-10">
+        <div class="flex flex-col items-center gap-6 text-center max-w-xl sm:w-full">
+          <span class="text-xs font-medium text-black px-11">
             Esse site é protegido pelo reCAPTCHA e está sujeito à Política de Privacidade e aos Termos de Serviços do Google.
           </span>
           <div class="flex justify-between w-full">
@@ -135,10 +135,10 @@ const validateEmail = () => {
                   mdi-alert-circle-outline
                 </v-icon>
                 <div class="flex flex-col">
-                  <p class="text-sm font-medium">
+                  <p class="text-xs font-medium sm:text-sm">
                     Verifique se o e-mail está correto.
                   </p>
-                  <p class="text-sm font-medium">
+                  <p class="text-xs font-medium sm:text-sm">
                     Além disso, não se esqueça de conferir sua caixa de spam.
                   </p>
                 </div>
