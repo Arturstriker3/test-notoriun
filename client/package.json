@@ -12,6 +12,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@arcgis/core": "^4.31.6",
     "@mdi/font": "7.4.47",
     "core-js": "^3.37.1",
     "dotenv": "^16.4.7",

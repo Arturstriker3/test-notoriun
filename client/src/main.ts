@@ -13,6 +13,8 @@ import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
 
+import "@arcgis/core/assets/esri/themes/light/main.css";
+
 const app = createApp(App)
 
 registerPlugins(app)
