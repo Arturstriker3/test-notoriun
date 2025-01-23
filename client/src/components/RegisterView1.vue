@@ -1,3 +1,18 @@
+<script lang="ts" setup >
+
+const router = useRouter();
+const emit = defineEmits(['change-view']);
+
+const goTo = (route: string) => {
+  router.push(`/${route}`);
+};
+
+const changeView = (view: number) => {
+  emit('change-view', view);
+};
+
+</script>
+
 <template>
   <main class="px-2 mt-4">
     <div class="flex flex-col gap-4 w-full h-full">
@@ -43,7 +58,6 @@
           </v-card-text>
         </v-card>
 
-        <!-- Aviso e botões -->
         <div class="flex flex-col items-center gap-4 text-center max-w-xl sm:w-full">
           <span class="text-xs font-medium text-black px-10">
             Esse site é protegido pelo reCAPTCHA e está sujeito à Política de Privacidade e aos Termos de Serviços do Google.
@@ -52,12 +66,14 @@
             <v-btn
               variant="text"
               class="text-red-700"
+              @click="goTo('users')"
             >
               Sair
             </v-btn>
             <v-btn
               class="bg-emerald-500 text-white"
               outlined
+              @click="changeView(2)"
             >
               Cadastrar
             </v-btn>
