@@ -15,8 +15,6 @@ const { newUser } = storeToRefs(useUserStore);
 const useAuthStore = authStore();
 const { userAuth } = storeToRefs(useAuthStore);
 
-const userAuthCode = ref('');
-
 const goTo = (route: string) => {
   router.push(`/${route}`);
 };
@@ -37,9 +35,9 @@ const applyPhoneMask = () => {
 };
 
 const validateEmail = () => {
-  formRef.value?.validate().then(({ valid: isValid }: { valid: boolean }) => {
+  formRef.value?.validate().then(async ({ valid: isValid }: { valid: boolean }) => {
     if (isValid) {
-      console.log('Formulário válido');
+      await useAuthStore.sendVerificationCode(newUser.value.email);
       authScreen.value = true;
     } else {
       console.error('Formulário inválido');
@@ -81,6 +79,7 @@ const validateEmail = () => {
                   variant="solo"
                   :maxlength="inputSizes.largeLength"
                   :rules="[validationRules.required]"
+                  :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
                 />
 
                 <label class="text-subtitle-1">
@@ -94,6 +93,7 @@ const validateEmail = () => {
                   variant="solo"
                   :maxlength="inputSizes.phoneLength"
                   :rules="[validationRules.required, validationRules.phone]"
+                  :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
                   @input="applyPhoneMask"
                 />
 
@@ -107,6 +107,7 @@ const validateEmail = () => {
                   variant="solo"
                   :maxlength="inputSizes.mediumLength"
                   :rules="[validationRules.required, validationRules.email]"
+                  :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
                 />
               </v-form>
             </v-card-text>
@@ -121,6 +122,7 @@ const validateEmail = () => {
             <v-btn
               variant="text"
               class="text-red-700 min-w-[132px]"
+              :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
               @click="goTo('users')"
             >
               Sair
@@ -128,6 +130,7 @@ const validateEmail = () => {
             <v-btn
               class="bg-emerald-500 text-white min-w-[132px]"
               outlined
+              :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
               @click="validateEmail()"
             >
               Cadastrar
@@ -161,6 +164,7 @@ const validateEmail = () => {
                 v-model="userAuth.code"
                 length="6"
                 max-width="full"
+                :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
               />
               <div class="flex justify-center items-center w-full mt-6">
                 <span 
