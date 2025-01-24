@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 
-// 
+const emit = defineEmits(['rewind', 'forward']);
+
+const rewind = () => {
+  emit('rewind',);
+};
+
+const forward = () => {
+  emit('forward');
+}
 
 </script>
 
@@ -12,6 +20,7 @@
         outlined
         class="bg-gray-300 text-black min-w-[132px]"
         size="large"
+        @click="rewind()"
       >
         Voltar
       </v-btn>
@@ -19,6 +28,7 @@
         class="bg-emerald-500 text-white min-w-[132px]"
         outlined
         size="large"
+        @click="forward()"
       >
         Continua
       </v-btn>

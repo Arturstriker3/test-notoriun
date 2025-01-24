@@ -7,7 +7,7 @@ import { createToaster } from "@meforma/vue-toaster";
 
 const toaster = createToaster();
 const router = useRouter();
-// const emit = defineEmits(['change-view']);
+const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
 const formRef = ref();
 const invalidOtp = ref(false);
@@ -22,9 +22,9 @@ const goTo = (route: string) => {
   router.push(`/${route}`);
 };
 
-// const changeView = (view: number) => {
-//   emit('change-view', view);
-// };
+const changeView = (view: number) => {
+  emit('change-view', view);
+};
 
 const applyPhoneMask = () => {
   let numericValue = newUser.value.userPhone.replace(/\D/g, '');
@@ -80,6 +80,8 @@ const verifyUserCode = async () => {
     const response = await useAuthStore.verifyCode(newUser.value.email, userAuth.value.code);
     if (response.message === "Code validated successfully") {
       invalidOtp.value = false;
+      userAuth.value.code = "";
+      changeView(2)
     } else {
       invalidOtp.value = true;
       userAuth.value.code = "";

@@ -1,3 +1,34 @@
+<script lang="ts" setup>
+import { inputSizes, validationRules } from '@/validator/validations';
+import { storeToRefs } from 'pinia';
+import { userStore } from '@/stores/user.store';
+
+const useUserStore = userStore();
+const { newUser } = storeToRefs(useUserStore);
+
+const emit = defineEmits(['change-view']);
+
+const rewind = () => {
+  emit('change-view', 1);
+};
+
+const forward = () => {
+  emit('change-view', 3);
+};
+
+const applyPhoneMask = () => {
+  let numericValue = newUser.value.institutionPhone.replace(/\D/g, '');
+  if (numericValue.length > 4) {
+    numericValue = numericValue.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  } else {
+    numericValue = numericValue.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+  }
+  newUser.value.institutionPhone = numericValue;
+  newUser.value.institutionPhoneCode = numericValue.slice(1, 3);
+};
+
+</script>
+
 <template>
   <section class="px-2 mt-4 animate-in fade-in duration-500">
     <v-card
@@ -40,9 +71,14 @@
             >
               <label class="text-subtitle-1">Telefone contato</label>
               <v-text-field
+                v-model="newUser.institutionPhone" 
                 placeholder="(00) 00000-0000"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.phoneLength"
+                :rules="[validationRules.phone]"
+                :disabled="useUserStore.isUserServiceCall"
+                @input="applyPhoneMask"
               />
             </v-col>
 
@@ -162,5 +198,8 @@
       </v-card-text>
     </v-card>
   </section>
-  <FormFooter />
+  <FormFooter
+    @rewind="rewind()"
+    @forward="forward()"
+  />
 </template>
