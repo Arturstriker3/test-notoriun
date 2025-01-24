@@ -10,7 +10,7 @@ RUN pnpm install --frozen-lockfile
 
 # RUN pnpm add typescript@5.2.2
 
-RUN pnpm build
+RUN pnpm build-only
 
 FROM nginx:1.21-alpine AS production-stage
 
