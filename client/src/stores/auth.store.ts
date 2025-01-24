@@ -2,9 +2,12 @@ import { defineStore } from "pinia";
 import authService from "@/services/auth.service";
 // import { createToaster } from "@meforma/vue-toaster";
 
-export const authStore = defineStore("categories", {
+export const authStore = defineStore("auth", {
   state: () => ({
     isAuthServiceCall: false,
+    userAuth: {
+      code: "",
+    },
   }),
 
   actions: {

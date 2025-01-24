@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 // import userService from "@/services/user.service";
 
-export const userStore = defineStore("categories", {
+export const userStore = defineStore("user", {
   state: () => ({
     isUserServiceCall: false,
     newUser: {

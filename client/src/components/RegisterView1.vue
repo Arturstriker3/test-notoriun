@@ -2,7 +2,7 @@
 import { inputSizes, validationRules } from '@/validator/validations';
 import { storeToRefs } from 'pinia';
 import { userStore } from '@/stores/user.store';
-// import { authStore } from '@/stores/auth.store';
+import { authStore } from '@/stores/auth.store';
 
 const router = useRouter();
 // const emit = defineEmits(['change-view']);
@@ -12,8 +12,8 @@ const formRef = ref();
 const useUserStore = userStore();
 const { newUser } = storeToRefs(useUserStore);
 
-// const useAuthStore = authStore();
-// const { userAuth } = storeToRefs(useAuthStore);
+const useAuthStore = authStore();
+const { userAuth } = storeToRefs(useAuthStore);
 
 const userAuthCode = ref('');
 
@@ -158,7 +158,7 @@ const validateEmail = () => {
                 </p>
               </div>
               <v-otp-input
-                v-model="userAuthCode"
+                v-model="userAuth.code"
                 length="6"
                 max-width="full"
               />
