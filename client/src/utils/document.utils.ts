@@ -65,7 +65,7 @@ class DocumentUtils {
 
         let size = document.length - 2;
         let numbers = document.substring(0, size);
-        let digits = document.substring(size);
+        const digits = document.substring(size);
         let sum = 0;
         let pos = size - 7;
 

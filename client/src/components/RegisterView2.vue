@@ -2,18 +2,25 @@
 import { inputSizes, validationRules } from '@/validator/validations';
 import { storeToRefs } from 'pinia';
 import { userStore } from '@/stores/user.store';
+import cepService from '@/services/cep.service';
+import { ref, watch } from 'vue';
+import { createToaster } from "@meforma/vue-toaster";
 
+const toaster = createToaster();
+const formRef = ref();
 const useUserStore = userStore();
 const { newUser } = storeToRefs(useUserStore);
+const isLoading = ref(false);
 
 const emit = defineEmits(['change-view']);
 
 const rewind = () => {
+  useUserStore.resetNewUser();
   emit('change-view', 1);
 };
 
 const forward = () => {
-  emit('change-view', 3);
+  validateForm();
 };
 
 const applyPhoneMask = () => {
@@ -27,6 +34,44 @@ const applyPhoneMask = () => {
   newUser.value.institutionPhoneCode = numericValue.slice(1, 3);
 };
 
+watch(
+  () => newUser.value.postalCode,
+  async (postalCode) => {
+    if (postalCode.length === 8) {
+      isLoading.value = true;
+
+      try {
+        const response = await cepService.getCepInfo(postalCode);
+        const data = response.data;
+
+        if (!data.erro) {
+          toaster.success("CEP encontrado com sucesso!");
+          newUser.value.address = data.logradouro || '';
+          newUser.value.neighborhood = data.bairro || '';
+          newUser.value.city = data.localidade || '';
+          newUser.value.state = data.uf || '';
+        } else {
+          console.error("CEP não encontrado.");
+          toaster.error("CEP não encontrado.");
+        }
+      } catch (error) {
+        console.error("Erro ao consultar o CEP:", error);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  }
+);
+
+const validateForm = () => {
+  formRef.value?.validate().then(async ({ valid: isValid }: { valid: boolean }) => {
+    if (isValid) {
+      emit('change-view', 3); 
+    } else {
+      console.error("Formulário inválido");
+    }
+  });
+};
 </script>
 
 <template>
@@ -36,7 +81,10 @@ const applyPhoneMask = () => {
       style="min-height: 402px;"
     >
       <v-card-text>
-        <v-form class="mt-4 mx-4">
+        <v-form
+          ref="formRef"
+          class="mt-4 mx-4"
+        >
           <v-row
             class="mb-4"
             dense
@@ -47,9 +95,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Número do CNPJ*</label>
               <v-text-field
+                v-model="newUser.cnpj"
                 placeholder="Digite o número de CNPJ"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.cnpjLength"
+                :rules="[validationRules.required, validationRules.cnpj]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
 
@@ -59,9 +111,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Nome*</label>
               <v-text-field
+                v-model="newUser.institutionName"
                 placeholder="Digite o nome da Instituição"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.largeLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
 
@@ -77,7 +133,7 @@ const applyPhoneMask = () => {
                 variant="solo"
                 :maxlength="inputSizes.phoneLength"
                 :rules="[validationRules.phone]"
-                :disabled="useUserStore.isUserServiceCall"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
                 @input="applyPhoneMask"
               />
             </v-col>
@@ -88,9 +144,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Email da instituição</label>
               <v-text-field
+                v-model="newUser.institutionEmail"
                 placeholder="instituicao@financeira.com.br"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.mediumLength"
+                :rules="[validationRules.email]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
           </v-row>
@@ -111,9 +171,14 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">CEP*</label>
               <v-text-field
+                v-model="newUser.postalCode"
                 placeholder="Digite o CEP da localidade"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.cepLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
+                @input="newUser.postalCode = newUser.postalCode.replace(/\D/g, '')"
               />
             </v-col>
 
@@ -123,9 +188,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Estado*</label>
               <v-text-field
+                v-model="newUser.state"
                 placeholder="Estado"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.mediumLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
 
@@ -135,9 +204,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Cidade*</label>
               <v-text-field
+                v-model="newUser.city"
                 placeholder="Cidade"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.mediumLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
           </v-row>
@@ -152,9 +225,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Bairro*</label>
               <v-text-field
+                v-model="newUser.neighborhood"
                 placeholder="Exemplo: Centro"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.mediumLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
 
@@ -164,9 +241,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Endereço*</label>
               <v-text-field
+                v-model="newUser.address"
                 placeholder="Exemplo: Avenida Brasil"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.mediumLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
 
@@ -176,9 +257,14 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Número*</label>
               <v-text-field
+                v-model="newUser.number"
                 placeholder="Exemplo: 123"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.smallLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
+                @input="newUser.number = newUser.number.replace(/\D/g, '')"
               />
             </v-col>
 
@@ -188,9 +274,13 @@ const applyPhoneMask = () => {
             >
               <label class="text-subtitle-1">Complemento*</label>
               <v-text-field
+                v-model="newUser.complement"
                 placeholder="Exemplo: Sala 01"
                 density="compact"
                 variant="solo"
+                :maxlength="inputSizes.smallLength"
+                :rules="[validationRules.required]"
+                :disabled="useUserStore.isUserServiceCall || isLoading"
               />
             </v-col>
           </v-row>
