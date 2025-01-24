@@ -144,4 +144,4 @@ Para testar o projeto basta somente acessar no navegador o localhost específico
   - `http://localhost:4000`
 
 3. **Documentação Backend**:  
-  - `http://localhost:4000`
+  - `http://localhost:4000/docs`
