@@ -1,6 +1,6 @@
-# Teste Técnico -  Quero Delivery
+# Teste Técnico -  Notoriun
 
-Esse repositório contém o teste técnico realizado com Typescript/Node/Express/MongoDB/PostgreSQL. O projeto tem como objetivo simular um sistema de microserviços com integração entre API de usuários e API de produtos, além de fornecer funcionalidades de carrinho de compras utilizando MongoDB.
+Esse repositório contém o teste técnico realizado com Vue/Typescript/Nest/PostgreSQL.
 
 ## Atenção ao rodar
 
