@@ -45,12 +45,13 @@ export const authStore = defineStore("auth", {
       this.isAuthServiceCall = true;
       try {
         const response = await authService.validateCode(email, code);
-        toaster.success("Código de verificação validado com sucesso");
-        return response.data;
+        if (response.data.message === "Code validated successfully") {
+          toaster.success("Código de verificação validado com sucesso");
+          return response.data;
+        }
       } catch (error) {
-        toaster.error("Código de verificação inválido");
-        console.error("Erro ao enviar o novo código de verificação:", error);
-        throw new Error("Falha ao enviar o novo código de verificação");
+        console.error("Erro ao validar o código de verificação:", error);
+        throw new Error("Falha ao processar a validação do código");
       } finally {
         this.isAuthServiceCall = false;
       }

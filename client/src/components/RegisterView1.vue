@@ -3,7 +3,9 @@ import { inputSizes, validationRules } from '@/validator/validations';
 import { storeToRefs } from 'pinia';
 import { userStore } from '@/stores/user.store';
 import { authStore } from '@/stores/auth.store';
+import { createToaster } from "@meforma/vue-toaster";
 
+const toaster = createToaster();
 const router = useRouter();
 // const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
@@ -76,13 +78,16 @@ const resendCode = async () => {
 const verifyUserCode = async () => {
   try {
     const response = await useAuthStore.verifyCode(newUser.value.email, userAuth.value.code);
-    if (response.success) {
+    if (response.message === "Code validated successfully") {
       invalidOtp.value = false;
     } else {
       invalidOtp.value = true;
       userAuth.value.code = "";
     }
   } catch (error) {
+    toaster.error("Código de verificação inválido");
+    invalidOtp.value = true;
+    userAuth.value.code = "";
     console.error("Erro ao verificar o código:", error);
   }
 };
