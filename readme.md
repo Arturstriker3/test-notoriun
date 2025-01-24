@@ -137,8 +137,11 @@ docker-compose up -d
 
 Para testar o projeto basta somente acessar no navegador o localhost específico
 
-1. **Backend**:  
-    - `http://localhost:4000`
+1. **Frontend**:  
+  - `http://localhost:8080`
 
-2. **Frontend**:  
-    - `http://localhost:8080`
+2. **Backend**:  
+  - `http://localhost:4000`
+
+3. **Documentação Backend**:  
+  - `http://localhost:4000`
