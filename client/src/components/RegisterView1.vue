@@ -37,10 +37,19 @@ const applyPhoneMask = () => {
 const validateEmail = () => {
   formRef.value?.validate().then(async ({ valid: isValid }: { valid: boolean }) => {
     if (isValid) {
-      await useAuthStore.sendVerificationCode(newUser.value.email);
-      authScreen.value = true;
+      try {
+        const response = await useAuthStore.sendVerificationCode(newUser.value.email);
+        if (response.message === "Verification code sent" && response.messageUrl) {
+          window.open(response.messageUrl, "_blank");
+          authScreen.value = true;
+        } else {
+          console.error("Erro inesperado ao enviar o código de verificação");
+        }
+      } catch (error) {
+        console.error("Erro ao enviar código de verificação:", error);
+      }
     } else {
-      console.error('Formulário inválido');
+      console.error("Formulário inválido");
     }
   });
 };
@@ -131,6 +140,7 @@ const validateEmail = () => {
               class="bg-emerald-500 text-white min-w-[132px]"
               outlined
               :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
+              :loading="useAuthStore.isAuthServiceCall"
               @click="validateEmail()"
             >
               Cadastrar
