@@ -2,15 +2,20 @@
 import { inputSizes, validationRules } from '@/validator/validations';
 import { storeToRefs } from 'pinia';
 import { userStore } from '@/stores/user.store';
+// import { authStore } from '@/stores/auth.store';
 
 const router = useRouter();
 // const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
-const userEmail = ref('teste@example.com');
 const formRef = ref();
 
 const useUserStore = userStore();
 const { newUser } = storeToRefs(useUserStore);
+
+// const useAuthStore = authStore();
+// const { userAuth } = storeToRefs(useAuthStore);
+
+const userAuthCode = ref('');
 
 const goTo = (route: string) => {
   router.push(`/${route}`);
@@ -91,8 +96,6 @@ const validateEmail = () => {
                   :rules="[validationRules.required, validationRules.phone]"
                   @input="applyPhoneMask"
                 />
-                {{ newUser.userPhoneCode }}
-                
 
                 <label class="text-subtitle-1">
                   E-mail*
@@ -151,12 +154,12 @@ const validateEmail = () => {
                   Validação de e-mail
                 </h2>
                 <p class="text-center text-sm font-medium text-gray-500 px-16">
-                  Insira abaixo o código enviado para <span class="font-semibold">{{ userEmail }}</span>
+                  Insira abaixo o código enviado para <span class="font-semibold">{{ newUser.email }}</span>
                 </p>
               </div>
               <v-otp-input
+                v-model="userAuthCode"
                 length="6"
-                model-value="123456"
                 max-width="full"
               />
               <div class="flex justify-center items-center w-full mt-6">

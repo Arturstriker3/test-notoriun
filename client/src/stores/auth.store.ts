@@ -1,19 +1,17 @@
 import { defineStore } from "pinia";
 import authService from "@/services/auth.service";
+// import { createToaster } from "@meforma/vue-toaster";
 
-export const userStore = defineStore("categories", {
+export const authStore = defineStore("categories", {
   state: () => ({
     isAuthServiceCall: false,
-    userAuth: {
-      "code": "",
-    },
   }),
 
   actions: {
     async sendVerificationCode(email: string) {
       this.isAuthServiceCall = true;
       try {
-        const response = await authService.requestCode();
+        const response = await authService.requestCode(email);
         console.log(response.data);
       } catch (error) {
         console.error("Erro ao enviar código de verificação:", error);
