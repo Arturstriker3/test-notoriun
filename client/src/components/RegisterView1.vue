@@ -7,6 +7,7 @@ const router = useRouter();
 // const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
 const userEmail = ref('teste@example.com');
+const formRef = ref();
 
 const useUserStore = userStore();
 const { newUser } = storeToRefs(useUserStore);
@@ -19,10 +20,6 @@ const goTo = (route: string) => {
 //   emit('change-view', view);
 // };
 
-const validateEmail = () => {
-  authScreen.value = true;
-};
-
 const applyPhoneMask = () => {
   let numericValue = newUser.value.userPhone.replace(/\D/g, '');
   if (numericValue.length > 4) {
@@ -32,6 +29,17 @@ const applyPhoneMask = () => {
   }
   newUser.value.userPhone = numericValue;
   newUser.value.userPhoneCode = numericValue.slice(1, 3);
+};
+
+const validateEmail = () => {
+  formRef.value?.validate().then(({ valid: isValid }: { valid: boolean }) => {
+    if (isValid) {
+      console.log('Formulário válido');
+      authScreen.value = true;
+    } else {
+      console.error('Formulário inválido');
+    }
+  });
 };
 
 </script>
@@ -53,7 +61,7 @@ const applyPhoneMask = () => {
             class="max-w-xl w-full min-h-[402px]"
           >
             <v-card-text>   
-              <v-form>
+              <v-form ref="formRef">
                 <div class="text-center mt-8 mb-4 text-sm font-medium text-gray-500">
                   <span>As informações serão usadas para iniciar o sistema</span>
                 </div>

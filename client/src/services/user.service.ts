@@ -1,8 +1,8 @@
 import apiService from "@/api/api.service";
 import axiosInstance from "@/api/axios";
 
-class categoriesService {
-  urlBase = apiService.categories;
+class userService {
+  urlBase = apiService.user;
 
   get() {
     return axiosInstance.get(`${this.urlBase}`);
@@ -44,4 +44,4 @@ class categoriesService {
   }
 }
 
-export default new categoriesService();
+export default new userService();
