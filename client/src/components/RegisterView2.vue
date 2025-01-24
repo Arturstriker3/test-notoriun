@@ -3,7 +3,6 @@ import { inputSizes, validationRules } from '@/validator/validations';
 import { storeToRefs } from 'pinia';
 import { userStore } from '@/stores/user.store';
 import cepService from '@/services/cep.service';
-import { ref, watch } from 'vue';
 import { createToaster } from "@meforma/vue-toaster";
 
 const toaster = createToaster();
@@ -24,7 +23,7 @@ const forward = () => {
 };
 
 const applyPhoneMask = () => {
-  let numericValue = newUser.value.institutionPhone.replace(/\D/g, '');
+  let numericValue = newUser.value.institutionPhone ? newUser.value.institutionPhone.replace(/\D/g, '') : '';
   if (numericValue.length > 4) {
     numericValue = numericValue.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
   } else {

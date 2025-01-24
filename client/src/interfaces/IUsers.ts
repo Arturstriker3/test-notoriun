@@ -5,9 +5,9 @@ export interface INewUser {
   email: string;
   cnpj: string;
   institutionName: string;
-  institutionPhoneCode: string;
-  institutionPhone: string;
-  institutionEmail: string;
+  institutionPhoneCode?: string;
+  institutionPhone?: string;
+  institutionEmail?: string;
   postalCode: string;
   state: string;
   city: string;

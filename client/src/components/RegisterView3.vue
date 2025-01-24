@@ -3,6 +3,43 @@ import { ref, onMounted } from 'vue';
 import { loadModules } from 'esri-loader';
 // @ts-expect-error: Type definitions for esri are not available
 import type * as __esri from 'esri';
+import { userStore } from '@/stores/user.store';
+import { storeToRefs } from 'pinia';
+import { createToaster } from "@meforma/vue-toaster";
+
+const toaster = createToaster();
+const emit = defineEmits(['change-view']);
+const useUserStore = userStore();
+const { newUser } = storeToRefs(useUserStore);
+const isLoading = ref(false);
+
+const changeView = (view: number) => {
+  emit('change-view', view);
+};
+
+const rewind = () => {
+  emit('change-view', 2);
+};
+
+const forward = async () => {
+  if (isLoading.value) return;
+
+  isLoading.value = true;
+  try {
+    const response = await useUserStore.createNewUser();
+    if (response) {
+      changeView(1);
+      useUserStore.resetNewUser();
+    } else {
+      toaster.warning("A mensagem não corresponde ao esperado.");
+    }
+  } catch (error) {
+    toaster.error("Erro ao tentar criar o usuário");
+    console.error("Erro ao verificar o código:", error);
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const mapViewRef = ref<__esri.MapView | null>(null);
 const userLocation = ref<{ latitude: number; longitude: number } | null>(null);
@@ -94,6 +131,13 @@ const loadMap = async () => {
   }
 };
 
+watch(userLocation, (newLocation) => {
+  if (newLocation) {
+    newUser.value.location.coordinates = [newLocation.longitude, newLocation.latitude];
+    toaster.info('Localização atualizada');
+  }
+});
+
 onMounted(() => {
   loadMap();
 });
@@ -135,7 +179,10 @@ onMounted(() => {
       </div>
     </div>
   </section>
-  <FormFooter />
+  <FormFooter
+    @rewind="rewind()"
+    @forward="forward()"
+  />
 </template>
 
 <style>

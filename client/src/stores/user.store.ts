@@ -63,8 +63,13 @@ export const userStore = defineStore("user", {
       this.isUserServiceCall = true;
       try {
         const response = await userService.post(this.newUser);
-        toaster.success("Uusário criado com sucesso");
-        return response.data;
+        if (response.status === 201) {
+          toaster.success("Usuário criado com sucesso");
+          return response.data;
+        } else {
+          toaster.error("Falha ao criar o usuário");
+          throw new Error("Falha ao criar o usuário");
+        }
       } catch (error) {
         console.error("Erro ao criar novo usuário:", error);
         throw new Error("Falha ao tentar criar novo usuário");
