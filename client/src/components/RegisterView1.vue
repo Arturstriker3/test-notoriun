@@ -8,6 +8,7 @@ const router = useRouter();
 // const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
 const formRef = ref();
+const invalidOtp = ref(false);
 
 const useUserStore = userStore();
 const { newUser } = storeToRefs(useUserStore);
@@ -54,6 +55,46 @@ const validateEmail = () => {
   });
 };
 
+const resendCode = async () => {
+  if (useAuthStore.isAuthServiceCall) {
+    console.warn("O serviço de autenticação já está em execução. Ação ignorada.");
+    return;
+  }
+
+  try {
+    const response = await useAuthStore.resendVerificationCode(newUser.value.email);
+    if (response.message === "Verification code resent" && response.messageUrl) {
+      window.open(response.messageUrl, "_blank");
+    } else {
+      console.error("Erro inesperado ao enviar novamente o código de verificação");
+    }
+  } catch (error) {
+    console.error("Erro ao enviar novamente o código de verificação:", error);
+  }
+};
+
+const verifyUserCode = async () => {
+  try {
+    const response = await useAuthStore.verifyCode(newUser.value.email, userAuth.value.code);
+    if (response.success) {
+      invalidOtp.value = false;
+    } else {
+      invalidOtp.value = true;
+      userAuth.value.code = "";
+    }
+  } catch (error) {
+    console.error("Erro ao verificar o código:", error);
+  }
+};
+
+watch(
+  () => userAuth.value.code,
+  (newCode) => {
+    if (newCode.length === 6 && /^\d{6}$/.test(newCode)) {
+      verifyUserCode();
+    }
+  }
+);
 </script>
 
 <template>
@@ -174,11 +215,14 @@ const validateEmail = () => {
                 v-model="userAuth.code"
                 length="6"
                 max-width="full"
+                :loading="useAuthStore.isAuthServiceCall"
                 :disabled="useUserStore.isUserServiceCall || useAuthStore.isAuthServiceCall"
+                :error="invalidOtp"
               />
               <div class="flex justify-center items-center w-full mt-6">
                 <span 
-                  class="text-base text-center text-red-600 underline font-semibold cursor-pointer hover:underline"
+                  class="text-base text-center text-red-600 underline font-semibold cursor-pointer hover:underline hover:text-red-800"
+                  @click="resendCode()"
                 >
                   Não recebi o código
                 </span>
