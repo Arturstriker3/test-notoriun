@@ -1,9 +1,15 @@
 <script lang="ts" setup>
+import { inputSizes, validationRules } from '@/validator/validations';
+import { storeToRefs } from 'pinia';
+import { userStore } from '@/stores/user.store';
 
 const router = useRouter();
 // const emit = defineEmits(['change-view']);
 const authScreen = ref(false);
 const userEmail = ref('teste@example.com');
+
+const useUserStore = userStore();
+const { newUser } = storeToRefs(useUserStore);
 
 const goTo = (route: string) => {
   router.push(`/${route}`);
@@ -44,15 +50,18 @@ const validateEmail = () => {
                   Nome Completo*
                 </label>
                 <v-text-field 
-                  placeholder="Nome Completo" 
+                  v-model="newUser.name" 
+                  placeholder="Nome Completo"
                   class="mb-4"
                   density="compact"
-                  variant="solo" 
+                  variant="solo"
+                  :maxlength="inputSizes.largeLength"
                 />
                 <label class="text-subtitle-1">
                   Celular*
                 </label>
                 <v-text-field 
+                  v-model="newUser.userPhone" 
                   placeholder="(00) 00000-0000" 
                   class="mb-4"
                   density="compact"
@@ -61,10 +70,13 @@ const validateEmail = () => {
                 <label class="text-subtitle-1">
                   E-mail*
                 </label>
-                <v-text-field 
+                <v-text-field
+                  v-model="newUser.email" 
                   placeholder="exemplo@noemail.com.br" 
                   density="compact"
-                  variant="solo" 
+                  variant="solo"
+                  :maxlength="inputSizes.mediumLength"
+                  :rules="[validationRules.required, validationRules.email]"
                 />
               </v-form>
             </v-card-text>
