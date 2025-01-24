@@ -23,6 +23,17 @@ const validateEmail = () => {
   authScreen.value = true;
 };
 
+const applyPhoneMask = () => {
+  let numericValue = newUser.value.userPhone.replace(/\D/g, '');
+  if (numericValue.length > 4) {
+    numericValue = numericValue.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  } else {
+    numericValue = numericValue.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+  }
+  newUser.value.userPhone = numericValue;
+  newUser.value.userPhoneCode = numericValue.slice(1, 3);
+};
+
 </script>
 
 <template>
@@ -56,7 +67,9 @@ const validateEmail = () => {
                   density="compact"
                   variant="solo"
                   :maxlength="inputSizes.largeLength"
+                  :rules="[validationRules.required]"
                 />
+
                 <label class="text-subtitle-1">
                   Celular*
                 </label>
@@ -65,8 +78,14 @@ const validateEmail = () => {
                   placeholder="(00) 00000-0000" 
                   class="mb-4"
                   density="compact"
-                  variant="solo" 
+                  variant="solo"
+                  :maxlength="inputSizes.phoneLength"
+                  :rules="[validationRules.required, validationRules.phone]"
+                  @input="applyPhoneMask"
                 />
+                {{ newUser.userPhoneCode }}
+                
+
                 <label class="text-subtitle-1">
                   E-mail*
                 </label>
